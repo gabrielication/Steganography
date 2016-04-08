@@ -3,11 +3,13 @@ package com.example.gabriele.steganography;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,12 +26,28 @@ public class EncodingActivity extends AppCompatActivity {
     private TextView status;
     private EditText inputText;
     private File imgFile;
-    private EncodeRS encodeRS;
-
-    private final String begin= "!n17";
-    private final String end= "$n%";
+    private Button encodeButton;
 
     private String toEncrypt;
+
+    private Handler handler= new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            time= System.currentTimeMillis()-time;
+            photoImageView= (ImageView) findViewById(R.id.photoImageView);
+            photoImageView.setImageBitmap(bmp);
+            status= (TextView) findViewById(R.id.statusEncText);
+            status.setText("Encoded!");
+            status.setTextColor(Color.GREEN);
+            Toast alert = Toast.makeText(getApplicationContext(), "Encoded in "+time+"ms", Toast.LENGTH_SHORT);
+            alert.show();
+            encodeButton.setEnabled(true);
+        }
+    };
+
+    long time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,45 +75,26 @@ public class EncodingActivity extends AppCompatActivity {
 
     public void encodeClicked(View view){
         inputText= (EditText) findViewById(R.id.inputText);
+        encodeButton= (Button) findViewById(R.id.encodeButton);
+        encodeButton.setEnabled(false);
         toEncrypt= inputText.getText().toString();
 
-        new AsyncEncode().execute();
+        time= System.currentTimeMillis();
+
+        status= (TextView) findViewById(R.id.statusEncText);
+        status.setText("Please wait...");
+        //new AsyncEncode().execute();
+
+        Runnable r= new Runnable() {
+            @Override
+            public void run() {
+                bmp= EncodeRS.encode(toEncrypt,getApplicationContext(),imgFile);
+                handler.sendEmptyMessage(0);
+            }
+        };
+
+        Thread thread= new Thread(r);
+        thread.start();
     }
-
-    private class AsyncEncode extends AsyncTask{
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            status= (TextView) findViewById(R.id.statusEncText);
-            status.setText("Encoding, please wait...");
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            photoImageView= (ImageView) findViewById(R.id.photoImageView);
-            photoImageView.setImageBitmap(bmp);
-            status= (TextView) findViewById(R.id.statusEncText);
-            status.setText("Encoded!");
-            status.setTextColor(Color.GREEN);
-            Toast alert = Toast.makeText(getApplicationContext(), "bmp aggiornato", Toast.LENGTH_SHORT);
-            alert.show();
-        }
-
-        @Override
-        protected void onProgressUpdate(Object[] values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            encodeRS= new EncodeRS(getApplicationContext(),imgFile);
-            bmp= encodeRS.encode(begin+toEncrypt+end);
-            return null;
-        }
-
-    }
-
 
 }

@@ -16,6 +16,7 @@ import java.util.Date;
 public class IntroActivity extends AppCompatActivity {
 
     private static final int REQUEST_TAKE_PHOTO = 1; //intent code for opening the camera app
+    private static boolean DEBUG= false;
 
     private String photo_path; //path of the took picture
 

@@ -15,6 +15,7 @@ void init() {
 
 uchar4 __attribute__((kernel)) encode(uchar4 in, uint32_t x, uint32_t y) {
 
+  if(!boolean) return in;
   uchar4 out= in;
 
   int8_t i;
