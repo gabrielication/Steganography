@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    >
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_add_a_photo_black_24dp"
+        android:id="@+id/add_photo_button"
+        android:layout_alignTop="@+id/pick_gallery_button"
+        android:layout_alignLeft="@+id/instructionTextView"
+        android:layout_alignStart="@+id/instructionTextView"
+        android:onClick="takePhoto" />
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_photo_library_black_24dp"
+        android:id="@+id/pick_gallery_button"
+        android:layout_marginBottom="103dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/instructionTextView"
+        android:layout_alignEnd="@+id/instructionTextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/takepic"
+        android:textSize="15dp"
+        android:textColor="@color/font"
+        android:id="@+id/instructionTextView"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/add_photo_button"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/titleapp"
+        android:textStyle="bold"
+        android:textSize="32dp"
+        android:layout_marginTop="141dp"
+        android:textColor="@color/font"
+        android:id="@+id/titleTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/desc_apptitle"
+        android:layout_below="@+id/titleTextView"
+        android:textColor="@color/font"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/descriptionTextView" />
+
+</RelativeLayout>
