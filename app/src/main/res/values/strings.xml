@@ -3,4 +3,7 @@
     <string name="takepic">Take a picture or pick from gallery.</string>
     <string name="titleapp"><![CDATA[>./Steganography]]></string>
     <string name="desc_apptitle">Hide text into images.</string>
+    <string name="ready_enc">Ready for encoding.</string>
+    <string name="clear_button">Clear</string>
+    <string name="encode_button">Encode</string>
 </resources>

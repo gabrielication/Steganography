@@ -69,7 +69,7 @@ public class IntroActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) { //if the user clicked ok, we can pass the path to the Activity
-            Intent selfiSrc = new Intent(this, this.getClass()); //TODO
+            Intent selfiSrc = new Intent(this, EncodingActivity.class);
             selfiSrc.putExtra("imgurl", photo_path);
             startActivity(selfiSrc);
         }

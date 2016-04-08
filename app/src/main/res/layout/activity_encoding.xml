@@ -7,6 +7,58 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.gabriele.steganography.EncodingActivity">
+    tools:context="com.example.gabriele.steganography.EncodingActivity"
+    android:background="@color/background">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:id="@+id/photoImageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/font_ready"
+        android:text="@string/ready_enc"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+        android:textSize="18dp"
+        android:id="@+id/statusEncText"
+        android:layout_below="@+id/photoImageView"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_below="@+id/statusEncText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="Type here..."
+        android:textColorHint="#808080"
+        android:textColor="#dedede"
+        android:id="@+id/inputText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clear_button"
+        android:id="@+id/clearButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/statusEncText"
+        android:layout_toStartOf="@+id/statusEncText" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/encode_button"
+        android:id="@+id/encodeButton"
+        android:layout_alignTop="@+id/clearButton"
+        android:layout_toRightOf="@+id/statusEncText"
+        android:layout_toEndOf="@+id/statusEncText"
+        android:onClick="encodeClicked" />
 
 </RelativeLayout>
