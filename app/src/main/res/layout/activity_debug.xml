@@ -77,5 +77,4 @@
         android:hint="Output will be displayed here..."
         android:layout_centerHorizontal="true" />
 
-
 </RelativeLayout>
