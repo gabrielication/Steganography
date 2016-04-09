@@ -6,4 +6,6 @@
     <string name="ready_enc">Ready for encoding.</string>
     <string name="clear_button">Clear</string>
     <string name="encode_button">Encode</string>
+    <string name="save_txt">Save .txt</string>
+    <string name="try_another_image">Try another image</string>
 </resources>

@@ -2,48 +2,32 @@ package com.example.gabriele.steganography;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.example.gabriele.steganography.utils.SaveImage;
+import com.example.gabriele.steganography.utils.UriRealPath;
+
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class IntroActivity extends AppCompatActivity {
 
     private static final int REQUEST_TAKE_PHOTO = 1; //intent code for opening the camera app
-    private static boolean DEBUG= false;
+    private static final int REQUEST_OPEN_GALLERY= 2; //intent code for opening the gallery
+    private static boolean DEBUG= false; //TODO
 
-    private String photo_path; //path of the took picture
+    private String photo_path; //path of the choosen picture
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "STG_"+timeStamp;
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography");
-        if(!storageDir.exists()){
-            storageDir.mkdir();
-            Log.i("degab","dir "+storageDir.getAbsolutePath()+" created");
-        }
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".png",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        photo_path = image.getAbsolutePath();
-        return image;
     }
 
     public void takePhoto(View view) {
@@ -53,16 +37,27 @@ public class IntroActivity extends AppCompatActivity {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageFile();
+                photoFile = SaveImage.createImageFileFromCamera();
             } catch (IOException ex) {
+                Log.i("degab","An error occured. Cannot create image file with createImageFile()");
+                Toast alert = Toast.makeText(getApplicationContext(), "Cannot create image file.", Toast.LENGTH_SHORT);
+                alert.show();
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
+                photo_path = photoFile.getAbsolutePath();
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
+    }
+
+    public void browseGallery(View view){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_OPEN_GALLERY);
     }
 
     @Override
@@ -75,7 +70,31 @@ public class IntroActivity extends AppCompatActivity {
             startActivity(selfiSrc);
         }
 
+        if(requestCode == REQUEST_OPEN_GALLERY && resultCode== RESULT_OK){
+            Intent startEncoding= new Intent(this, EncodingActivity.class);
+            Uri selectedImageUri = data.getData();
+
+            photo_path= null;
+
+            if(Build.VERSION.SDK_INT>=19){
+                photo_path= UriRealPath.getRealPathFromURI_API19(this,selectedImageUri);
+            }
+            else if(Build.VERSION.SDK_INT>=11 && Build.VERSION.SDK_INT<=18){
+                photo_path= UriRealPath.getRealPathFromURI_API11to18(this,selectedImageUri);
+            }
+
+            if(photo_path==null){
+                Toast alert = Toast.makeText(getApplicationContext(), "Cannot pick from gallery!", Toast.LENGTH_SHORT);
+                alert.show();
+            }
+            else {
+                startEncoding.putExtra("imgurl",photo_path);
+                startActivity(startEncoding);
+            }
+        }
+
     }
+
 }
 
 /**

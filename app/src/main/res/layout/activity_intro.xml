@@ -23,7 +23,8 @@
         android:layout_marginBottom="103dp"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/instructionTextView"
-        android:layout_alignEnd="@+id/instructionTextView" />
+        android:layout_alignEnd="@+id/instructionTextView"
+        android:onClick="browseGallery" />
 
     <TextView
         android:layout_width="wrap_content"

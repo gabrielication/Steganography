@@ -16,21 +16,6 @@ import com.example.gabriele.steganography.ScriptC_encode;
 import java.io.File;
 
 public class EncodeRS {
-    /**
-    private RenderScript encodeRS;
-    private Bitmap bmp;
-    private Context context;
-
-    private final String begin= "!n17";
-    private final String end= "$n%";
-
-    public EncodeRS(Context c, File imgFile){
-        context= c;
-        encodeRS= RenderScript.create(c);
-        bmp= BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-    }
-    **/
-
 
     public static Bitmap encode(String input,Context c,File imgFile){
         RenderScript encodeRS= RenderScript.create(c);
