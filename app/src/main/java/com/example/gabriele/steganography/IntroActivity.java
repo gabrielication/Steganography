@@ -2,12 +2,16 @@ package com.example.gabriele.steganography;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gabriele.steganography.utils.SaveImage;
@@ -22,12 +26,58 @@ public class IntroActivity extends AppCompatActivity {
     private static final int REQUEST_OPEN_GALLERY= 2; //intent code for opening the gallery
     private static boolean DEBUG= false; //TODO
 
+    private Button encodeButton,decodeButton,cameraButton,galleryButton;
+    private TextView chooseText;
+
     private String photo_path; //path of the choosen picture
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+    }
+
+    public void fadeOut(View view){
+        view.setEnabled(false);
+        cameraButton= (Button) findViewById(R.id.cameraButton);
+        galleryButton= (Button) findViewById(R.id.galleryButton);
+
+        AlphaAnimation fade = new AlphaAnimation(0.0f, 1.0f);
+        fade.setDuration(500);
+
+        cameraButton.setEnabled(true);
+        galleryButton.setEnabled(true);
+
+        cameraButton.startAnimation(fade);
+        galleryButton.startAnimation(fade);
+
+        cameraButton.setVisibility(View.VISIBLE);
+        galleryButton.setVisibility(View.VISIBLE);
+
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
+                AlphaAnimation fadeIn= new AlphaAnimation(0.0f, 1.0f);
+                fadeIn.setDuration(1000);
+
+                chooseText= (TextView) findViewById(R.id.chooseText);
+                chooseText.startAnimation(fadeIn);
+                chooseText.setVisibility(View.VISIBLE);
+            }
+        }.execute();
+
     }
 
     public void takePhoto(View view) {
@@ -58,6 +108,11 @@ public class IntroActivity extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_OPEN_GALLERY);
+    }
+
+    public void startDecoding(View view){
+        Toast alert = Toast.makeText(getApplicationContext(), "Not implemented yet!", Toast.LENGTH_SHORT);
+        alert.show();
     }
 
     @Override

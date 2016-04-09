@@ -2,40 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/background"
     >
 
-    <ImageButton
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@mipmap/ic_add_a_photo_black_24dp"
-        android:id="@+id/add_photo_button"
-        android:layout_alignTop="@+id/pick_gallery_button"
-        android:layout_alignLeft="@+id/instructionTextView"
-        android:layout_alignStart="@+id/instructionTextView"
-        android:onClick="takePhoto" />
-
-    <ImageButton
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@mipmap/ic_photo_library_black_24dp"
-        android:id="@+id/pick_gallery_button"
-        android:layout_marginBottom="103dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/instructionTextView"
-        android:layout_alignEnd="@+id/instructionTextView"
-        android:onClick="browseGallery" />
-
-    <TextView
+    <Button
+        android:id="@+id/encodeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/takepic"
-        android:textSize="15dp"
-        android:textColor="@color/font"
-        android:id="@+id/instructionTextView"
-        android:layout_marginTop="24dp"
-        android:layout_below="@+id/add_photo_button"
-        android:layout_centerHorizontal="true" />
+        android:text="Encode"
+        android:drawableTop="@mipmap/ic_lock_black_48dp"
+        android:layout_marginTop="90dp"
+        android:layout_below="@+id/descriptionTextView"
+        android:layout_alignLeft="@+id/titleTextView"
+        android:layout_alignStart="@+id/titleTextView"
+        android:onClick="fadeOut" />
+
+    <Button
+        android:id="@+id/decodeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Decode"
+        android:drawableTop="@mipmap/ic_lock_open_black_48dp"
+        android:layout_alignTop="@+id/encodeButton"
+        android:layout_alignRight="@+id/titleTextView"
+        android:layout_alignEnd="@+id/titleTextView"
+        android:onClick="startDecoding" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +38,7 @@
         android:text="@string/titleapp"
         android:textStyle="bold"
         android:textSize="32dp"
-        android:layout_marginTop="141dp"
+        android:layout_marginTop="97dp"
         android:textColor="@color/font"
         android:id="@+id/titleTextView"
         android:layout_alignParentTop="true"
@@ -58,12 +53,55 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/descriptionTextView" />
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="debug"
-        android:id="@+id/debugButton"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text="Choose what you want to do."
+        android:textSize="15dp"
+        android:textColor="@color/font"
+        android:id="@+id/instructionTextView"
+        android:layout_below="@+id/encodeButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose your source."
+        android:textSize="15dp"
+        android:textColor="@color/font"
+        android:layout_marginTop="15dp"
+        android:id="@+id/chooseText"
+        android:layout_below="@+id/galleryButton"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/galleryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gallery"
+        android:drawableTop="@mipmap/ic_collections_black_48dp"
+        android:layout_below="@+id/instructionTextView"
+        android:layout_alignLeft="@+id/encodeButton"
+        android:layout_alignStart="@+id/encodeButton"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
+        android:enabled="false"
+        android:onClick="browseGallery" />
+
+    <Button
+        android:id="@+id/cameraButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        android:drawableTop="@mipmap/ic_add_a_photo_black_48dp"
+        android:layout_alignTop="@+id/galleryButton"
+        android:layout_alignLeft="@+id/decodeButton"
+        android:layout_alignStart="@+id/decodeButton"
+        android:visibility="invisible"
+        android:enabled="false"
+        android:onClick="takePhoto" />
+
 
 </RelativeLayout>
