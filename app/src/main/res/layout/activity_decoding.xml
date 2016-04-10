@@ -25,7 +25,8 @@
         android:id="@+id/decodeButton"
         android:layout_below="@+id/decodingImageView"
         android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="decodeClicked" />
 
     <Button
         android:layout_width="wrap_content"

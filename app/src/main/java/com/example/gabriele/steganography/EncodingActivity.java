@@ -92,7 +92,6 @@ public class EncodingActivity extends AppCompatActivity {
 
         encodeButton.setEnabled(false);
         clearButton.setEnabled(false);
-
         toEncrypt= inputText.getText().toString();
 
         time= System.currentTimeMillis();

@@ -23,8 +23,8 @@ import java.io.IOException;
 public class IntroActivity extends AppCompatActivity {
 
     private static final int REQUEST_TAKE_PHOTO = 1; //intent code for opening the camera app
-    private static final int REQUEST_OPEN_GALLERY= 2; //intent code for opening the gallery
-    private static boolean DEBUG= false; //TODO
+    private static final int REQUEST_OPEN_GALLERY_BY_ENCODE= 2; //intent code for opening the gallery for the Encoding
+    private static final int REQUEST_OPEN_GALLERY_BY_DECODE= 3; //intent code for opening the gallery for the Decoding
 
     private Button encodeButton,decodeButton,cameraButton,galleryButton;
     private TextView chooseText;
@@ -103,16 +103,19 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
 
-    public void browseGallery(View view){
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(intent, REQUEST_OPEN_GALLERY);
+    public void chooseFromGalleryForEncoding(View view){
+        browseGallery(REQUEST_OPEN_GALLERY_BY_ENCODE);
     }
 
     public void startDecoding(View view){
-        Toast alert = Toast.makeText(getApplicationContext(), "Not implemented yet!", Toast.LENGTH_SHORT);
-        alert.show();
+        browseGallery(REQUEST_OPEN_GALLERY_BY_DECODE);
+    }
+
+    private void browseGallery(int req){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, req);
     }
 
     @Override
@@ -125,7 +128,7 @@ public class IntroActivity extends AppCompatActivity {
             startActivity(selfiSrc);
         }
 
-        if(requestCode == REQUEST_OPEN_GALLERY && resultCode== RESULT_OK){
+        if(requestCode == REQUEST_OPEN_GALLERY_BY_ENCODE && resultCode== RESULT_OK){
             Intent startEncoding= new Intent(this, EncodingActivity.class);
             Uri selectedImageUri = data.getData();
 
@@ -145,6 +148,29 @@ public class IntroActivity extends AppCompatActivity {
             else {
                 startEncoding.putExtra("imgurl",photo_path);
                 startActivity(startEncoding);
+            }
+        }
+
+        if(requestCode == REQUEST_OPEN_GALLERY_BY_DECODE && resultCode== RESULT_OK){
+            Intent startDecoding= new Intent(this, DecodingActivity.class);
+            Uri selectedImageUri = data.getData();
+
+            photo_path= null;
+
+            if(Build.VERSION.SDK_INT>=19){
+                photo_path= UriRealPath.getRealPathFromURI_API19(this,selectedImageUri);
+            }
+            else if(Build.VERSION.SDK_INT>=11 && Build.VERSION.SDK_INT<=18){
+                photo_path= UriRealPath.getRealPathFromURI_API11to18(this,selectedImageUri);
+            }
+
+            if(photo_path==null){
+                Toast alert = Toast.makeText(getApplicationContext(), "Cannot pick from gallery!", Toast.LENGTH_SHORT);
+                alert.show();
+            }
+            else {
+                startDecoding.putExtra("imgurl",photo_path);
+                startActivity(startDecoding);
             }
         }
 

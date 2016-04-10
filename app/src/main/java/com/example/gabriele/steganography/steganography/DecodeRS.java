@@ -1,9 +1,61 @@
 package com.example.gabriele.steganography.steganography;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.Element;
+import android.support.v8.renderscript.RenderScript;
+import android.support.v8.renderscript.Type;
+import android.widget.Toast;
+
+import com.example.gabriele.steganography.ScriptC_decode;
+
+import java.io.File;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+
 /**
  * Created by gabriele on 08/04/16.
  */
 public class DecodeRS {
+
+    public static String decode(File file, Context c){
+        RenderScript decodeRS= RenderScript.create(c);
+        Bitmap bmp= BitmapFactory.decodeFile(file.getAbsolutePath());
+
+        int length= ((bmp.getHeight()*bmp.getWidth())*3)/4;
+        byte[] output = new byte[length];
+
+        ScriptC_decode decodeScript= new ScriptC_decode(decodeRS);
+
+        decodeScript.set_len(length);
+
+        Allocation char_array= Allocation.createSized(decodeRS, Element.U8(decodeRS),length,Allocation.USAGE_SCRIPT);
+        decodeScript.bind_output_string(char_array);
+
+        Allocation alloc= Allocation.createFromBitmap(decodeRS, bmp);
+
+        decodeScript.forEach_decode(alloc);
+
+        char_array.copyTo(output);
+
+        StringBuilder str= new StringBuilder();
+        for(int i=0; i<length; i++){
+            str.append((char) output[i]);
+        }
+
+        String s=null;
+
+        try{
+            s= str.substring(str.indexOf("!n17")+4, str.indexOf("$n%"));
+        } catch (StringIndexOutOfBoundsException e){
+            Toast alert = Toast.makeText(c, "string non trovata", Toast.LENGTH_SHORT);
+            alert.show();
+        }
+
+        return s;
+    }
 
 }
 

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.gabriele.steganography.ScriptC_encode;
 
 import java.io.File;
+import java.nio.ByteBuffer;
 
 public class EncodeRS {
 
@@ -24,13 +25,19 @@ public class EncodeRS {
 
         Allocation alloc= Allocation.createFromBitmap(encodeRS, bmp);
         ScriptC_encode encodeScript= new ScriptC_encode(encodeRS);
-        encodeScript.set_string_length(input.length());
+        encodeScript.set_string_length(toEncode.length());
 
         Allocation allocString= Allocation.createFromString(encodeRS,toEncode,Allocation.USAGE_SCRIPT);
         encodeScript.bind_input_string(allocString);
         encodeScript.forEach_encode(alloc, alloc);
 
         alloc.copyTo(bmp);
+
+        int bytes = bmp.getByteCount();
+        ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
+        bmp.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
+
+        byte[] array = buffer.array();
 
         return bmp;
     }
