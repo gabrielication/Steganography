@@ -1,5 +1,6 @@
 package com.example.gabriele.steganography;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -16,8 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gabriele.steganography.steganography.EncodeRS;
+import com.example.gabriele.steganography.utils.OutputStatsAfterEncoding;
+import com.example.gabriele.steganography.utils.SaveImage;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class EncodingActivity extends AppCompatActivity {
 
@@ -27,6 +32,10 @@ public class EncodingActivity extends AppCompatActivity {
     private EditText inputText;
     private File imgFile;
     private Button encodeButton;
+    private Button clearButton;
+    private long time;
+    File file= null;
+
 
     private String toEncrypt;
 
@@ -35,19 +44,22 @@ public class EncodingActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            time= System.currentTimeMillis()-time;
-            photoImageView= (ImageView) findViewById(R.id.photoImageView);
-            photoImageView.setImageBitmap(bmp);
-            status= (TextView) findViewById(R.id.statusEncText);
-            status.setText("Encoded!");
-            status.setTextColor(Color.GREEN);
-            Toast alert = Toast.makeText(getApplicationContext(), "Encoded in "+time+"ms", Toast.LENGTH_SHORT);
-            alert.show();
-            encodeButton.setEnabled(true);
+            if(msg.what==0){
+                status.setText("Saving image... 90%");
+                time= System.currentTimeMillis()-time;
+                saveImageThread();
+            } else if(msg.what==1) {
+                status.setText("Done 100%");
+
+                bmp.recycle(); //cleanup
+                OutputStatsAfterEncoding out = new OutputStatsAfterEncoding(file.getPath(), toEncrypt, time);
+
+                Intent startEncodedActivity = new Intent(EncodingActivity.this, EncodedActivity.class);
+                startEncodedActivity.putExtra("resultfromencoding", out);
+                startActivity(startEncodedActivity);
+            }
         }
     };
-
-    long time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +88,17 @@ public class EncodingActivity extends AppCompatActivity {
     public void encodeClicked(View view){
         inputText= (EditText) findViewById(R.id.inputText);
         encodeButton= (Button) findViewById(R.id.encodeButton);
+        clearButton= (Button) findViewById(R.id.clearButton);
+
         encodeButton.setEnabled(false);
+        clearButton.setEnabled(false);
+
         toEncrypt= inputText.getText().toString();
 
         time= System.currentTimeMillis();
 
         status= (TextView) findViewById(R.id.statusEncText);
-        status.setText("Please wait...");
+        status.setText("Please wait... 0%");
         //new AsyncEncode().execute();
 
         Runnable r= new Runnable() {
@@ -95,6 +111,36 @@ public class EncodingActivity extends AppCompatActivity {
 
         Thread thread= new Thread(r);
         thread.start();
+    }
+
+    private void saveImageThread(){
+        Runnable r2= new Runnable() {
+            @Override
+            public void run() {
+
+                try { //TODO: asynctask
+                    file= SaveImage.createImageFileAfterEncoding();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try{
+                    FileOutputStream fos = new FileOutputStream(file);
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.close();
+                } catch (IOException e){}
+                //asynctask
+                handler.sendEmptyMessage(1);
+            }
+        };
+
+        Thread thread= new Thread(r2);
+        thread.start();
+    }
+
+    public void clearText(View view){
+        inputText= (EditText) findViewById(R.id.inputText);
+        inputText.setText("");
     }
 
 }

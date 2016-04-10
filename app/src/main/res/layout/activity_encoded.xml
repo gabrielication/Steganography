@@ -12,20 +12,37 @@
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Encoding succesfully."
-        android:textColor="@color/font"
-        android:id="@+id/textView"
-        android:layout_below="@+id/encodedImageView"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:id="@+id/encodedImageView"
+        android:layout_height="300dp"
+        android:background="#000000"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Status:"
+        android:textSize="18dp"
+        android:textColor="@color/font"
+        android:id="@+id/logstatusTextView"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:scrollbars= "vertical"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/saveEncodedButton"
+        android:drawableTop="@mipmap/ic_save_black_48dp"
+        android:layout_below="@+id/logstatusTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:id="@+id/shareEncodedButton"
+        android:drawableTop="@mipmap/ic_share_black_48dp"
+        android:layout_below="@+id/logstatusTextView"
+        android:layout_alignRight="@+id/logstatusTextView"
+        android:layout_alignEnd="@+id/logstatusTextView" />
+
 </RelativeLayout>

@@ -33,6 +33,27 @@ public class SaveImage {
         return image;
     }
 
+    public static File createImageFileAfterEncoding() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "STG_"+timeStamp;
+
+
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography/Encoded");
+        if(!storageDir.exists()){
+            storageDir.mkdir();
+            Log.i("degab","dir "+storageDir.getAbsolutePath()+" created");
+        }
+
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".png",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        return image;
+    }
+
 }
 
 /**
