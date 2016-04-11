@@ -50,8 +50,7 @@ public class DecodeRS {
         try{
             s= str.substring(str.indexOf("!n17")+4, str.indexOf("$n%"));
         } catch (StringIndexOutOfBoundsException e){
-            Toast alert = Toast.makeText(c, "string non trovata", Toast.LENGTH_SHORT);
-            alert.show();
+            return null;
         }
 
         return s;

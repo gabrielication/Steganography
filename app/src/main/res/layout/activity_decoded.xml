@@ -18,7 +18,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="#000000"
-        android:textColor="@color/font"/>
+        android:textColor="@color/font"
+        android:scrollbars= "vertical"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -27,8 +28,7 @@
         android:id="@+id/saveDecodeButton"
         android:layout_alignTop="@+id/tryAgainDecodeButton"
         android:layout_alignRight="@+id/outputText"
-        android:layout_alignEnd="@+id/outputText"
-        android:enabled="false"/>
+        android:layout_alignEnd="@+id/outputText"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -57,8 +57,7 @@
         android:id="@+id/copyDecodeButton"
         android:layout_alignTop="@+id/decodeStatusText"
         android:layout_alignLeft="@+id/saveDecodeButton"
-        android:layout_alignStart="@+id/saveDecodeButton"
-        android:enabled="false"/>
+        android:layout_alignStart="@+id/saveDecodeButton"/>
 
 
 </RelativeLayout>

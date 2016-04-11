@@ -26,6 +26,9 @@ import java.io.IOException;
 
 public class EncodingActivity extends AppCompatActivity {
 
+    private static final int ENCODING_DONE= 0;
+    private static final int SAVED_IMG= 1;
+
     private Bitmap bmp;
     private ImageView photoImageView;
     private TextView status;
@@ -36,30 +39,7 @@ public class EncodingActivity extends AppCompatActivity {
     private long time;
     File file= null;
 
-
     private String toEncrypt;
-
-    private Handler handler= new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            if(msg.what==0){
-                status.setText("Saving image... 90%");
-                time= System.currentTimeMillis()-time;
-                saveImageThread();
-            } else if(msg.what==1) {
-                status.setText("Done 100%");
-
-                bmp.recycle(); //cleanup
-                OutputStatsAfterEncoding out = new OutputStatsAfterEncoding(file.getPath(), toEncrypt, time);
-
-                Intent startEncodedActivity = new Intent(EncodingActivity.this, EncodedActivity.class);
-                startEncodedActivity.putExtra("resultfromencoding", out);
-                startActivity(startEncodedActivity);
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +84,7 @@ public class EncodingActivity extends AppCompatActivity {
             @Override
             public void run() {
                 bmp= EncodeRS.encode(toEncrypt,getApplicationContext(),imgFile);
-                handler.sendEmptyMessage(0);
+                handler.sendEmptyMessage(ENCODING_DONE);
             }
         };
 
@@ -129,7 +109,7 @@ public class EncodingActivity extends AppCompatActivity {
                     fos.close();
                 } catch (IOException e){}
                 //asynctask
-                handler.sendEmptyMessage(1);
+                handler.sendEmptyMessage(SAVED_IMG);
             }
         };
 
@@ -141,6 +121,29 @@ public class EncodingActivity extends AppCompatActivity {
         inputText= (EditText) findViewById(R.id.inputText);
         inputText.setText("");
     }
+
+    private Handler handler= new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int code= msg.what;
+
+            if(code==ENCODING_DONE){
+                status.setText("Saving image... 90%");
+                time= System.currentTimeMillis()-time;
+                saveImageThread();
+            } else if(code==SAVED_IMG) {
+                status.setText("Done 100%");
+
+                bmp.recycle(); //cleanup
+                OutputStatsAfterEncoding out = new OutputStatsAfterEncoding(file.getPath(), toEncrypt, time);
+
+                Intent startEncodedActivity = new Intent(EncodingActivity.this, EncodedActivity.class);
+                startEncodedActivity.putExtra("resultfromencoding", out);
+                startActivity(startEncodedActivity);
+            }
+        }
+    };
 
 }
 

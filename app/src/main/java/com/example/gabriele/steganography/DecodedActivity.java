@@ -2,13 +2,36 @@ package com.example.gabriele.steganography;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.widget.TextView;
+
+import com.example.gabriele.steganography.utils.OutputStatsAfterDecoding;
 
 public class DecodedActivity extends AppCompatActivity {
+
+    private String decodemsg;
+    private long time;
+
+    private TextView outputText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decoded);
+
+        Bundle bundle= getIntent().getExtras();
+        OutputStatsAfterDecoding out= (OutputStatsAfterDecoding) bundle.get("outputstas");
+        decodemsg= out.getDecodedmsg();
+        time= out.getTime();
+
+        displaystats();
+    }
+
+    public void displaystats(){
+        outputText= (TextView) findViewById(R.id.outputText);
+        outputText.setMovementMethod(new ScrollingMovementMethod());
+
+        outputText.setText("Status: DECODED SUCCESFULLY\nOperation done in: "+time+"ms\n\nText decoded:\n\n\""+decodemsg+"\"");
     }
 }
 

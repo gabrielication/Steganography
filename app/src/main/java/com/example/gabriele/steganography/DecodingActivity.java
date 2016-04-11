@@ -1,6 +1,6 @@
 package com.example.gabriele.steganography;
 
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -12,16 +12,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.gabriele.steganography.steganography.DecodeRS;
-import com.example.gabriele.steganography.steganography.EncodeRS;
+import com.example.gabriele.steganography.utils.OutputStatsAfterDecoding;
 
 import java.io.File;
 
 public class DecodingActivity extends AppCompatActivity {
 
+    private static final int DECODING_SUCCESFULLY= 0;
+    private static final int DECODING_FAILURE= -1;
+
     private File sourceFile;
     private Button decodeButton, chooseAnotherPicButton;
     private ImageView decodingImageView;
     private String output;
+    private long time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +54,15 @@ public class DecodingActivity extends AppCompatActivity {
 
         output= null;
 
+        time= System.currentTimeMillis();
+
         Runnable r= new Runnable() {
             @Override
             public void run() {
                 output= DecodeRS.decode(sourceFile,getApplicationContext());
-                handler.sendEmptyMessage(0);
+                time= System.currentTimeMillis()-time;
+                if(output!=null) handler.sendEmptyMessage(DECODING_SUCCESFULLY);
+                else handler.sendEmptyMessage(DECODING_FAILURE);
             }
         };
 
@@ -68,8 +76,18 @@ public class DecodingActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            Toast alert = Toast.makeText(getApplicationContext(), output, Toast.LENGTH_SHORT);
-            alert.show();
+            int code= msg.what;
+
+            if(code==DECODING_SUCCESFULLY) {
+                Intent gotoDecoded= new Intent(DecodingActivity.this, DecodedActivity.class);
+                OutputStatsAfterDecoding out= new OutputStatsAfterDecoding(output,time);
+                gotoDecoded.putExtra("outputstas",out);
+                startActivity(gotoDecoded);
+            }
+            else if(code==DECODING_FAILURE){
+                Toast alert = Toast.makeText(getApplicationContext(), "String not found! Try with another pic.", Toast.LENGTH_SHORT);
+                alert.show();
+            }
         }
 
     };
