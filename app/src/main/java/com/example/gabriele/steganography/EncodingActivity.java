@@ -2,7 +2,7 @@ package com.example.gabriele.steganography;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -14,11 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.gabriele.steganography.steganography.EncodeRS;
-import com.example.gabriele.steganography.utils.OutputStatsAfterEncoding;
-import com.example.gabriele.steganography.utils.SaveImage;
+import com.example.gabriele.steganography.utils.OutputStats;
+import com.example.gabriele.steganography.utils.SaveFiles;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -98,7 +97,7 @@ public class EncodingActivity extends AppCompatActivity {
             public void run() {
 
                 try { //TODO: asynctask
-                    file= SaveImage.createImageFileAfterEncoding();
+                    file= SaveFiles.createImageFileAfterEncoding();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -136,7 +135,8 @@ public class EncodingActivity extends AppCompatActivity {
                 status.setText("Done 100%");
 
                 bmp.recycle(); //cleanup
-                OutputStatsAfterEncoding out = new OutputStatsAfterEncoding(file.getPath(), toEncrypt, time);
+                OutputStats out = new OutputStats(file.getPath(), toEncrypt, time);
+                MediaScannerConnection.scanFile(getApplicationContext(),new String[]{file.getPath()},null,null);
 
                 Intent startEncodedActivity = new Intent(EncodingActivity.this, EncodedActivity.class);
                 startEncodedActivity.putExtra("resultfromencoding", out);

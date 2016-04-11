@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.example.gabriele.steganography.ScriptC_encode;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class EncodeRS {
 
@@ -22,22 +24,18 @@ public class EncodeRS {
         RenderScript encodeRS= RenderScript.create(c);
         Bitmap bmp= BitmapFactory.decodeFile(imgFile.getAbsolutePath());
         String toEncode= "!n17"+input+"$n%";
+        byte[] prova= toEncode.getBytes();
 
         Allocation alloc= Allocation.createFromBitmap(encodeRS, bmp);
         ScriptC_encode encodeScript= new ScriptC_encode(encodeRS);
         encodeScript.set_string_length(toEncode.length());
 
-        Allocation allocString= Allocation.createFromString(encodeRS,toEncode,Allocation.USAGE_SCRIPT);
-        encodeScript.bind_input_string(allocString);
+        Allocation char_array= Allocation.createSized(encodeRS, Element.U8(encodeRS),prova.length,Allocation.USAGE_SCRIPT);
+        char_array.copyFrom(prova);
+        encodeScript.bind_input_string(char_array);
         encodeScript.forEach_encode(alloc, alloc);
 
         alloc.copyTo(bmp);
-
-        int bytes = bmp.getByteCount();
-        ByteBuffer buffer = ByteBuffer.allocate(bytes); //Create a new buffer
-        bmp.copyPixelsToBuffer(buffer); //Move the byte data to the buffer
-
-        byte[] array = buffer.array();
 
         return bmp;
     }

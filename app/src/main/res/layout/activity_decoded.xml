@@ -28,7 +28,8 @@
         android:id="@+id/saveDecodeButton"
         android:layout_alignTop="@+id/tryAgainDecodeButton"
         android:layout_alignRight="@+id/outputText"
-        android:layout_alignEnd="@+id/outputText"/>
+        android:layout_alignEnd="@+id/outputText"
+        android:onClick="saveTxt" />
 
     <Button
         android:layout_width="wrap_content"
@@ -37,7 +38,8 @@
         android:id="@+id/tryAgainDecodeButton"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/decodeStatusText"
-        android:layout_toEndOf="@+id/decodeStatusText" />
+        android:layout_toEndOf="@+id/decodeStatusText"
+        android:onClick="tryAnotherImage" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,7 +59,8 @@
         android:id="@+id/copyDecodeButton"
         android:layout_alignTop="@+id/decodeStatusText"
         android:layout_alignLeft="@+id/saveDecodeButton"
-        android:layout_alignStart="@+id/saveDecodeButton"/>
+        android:layout_alignStart="@+id/saveDecodeButton"
+        android:onClick="copyToClip" />
 
 
 </RelativeLayout>

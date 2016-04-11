@@ -1,7 +1,7 @@
 #pragma version(1)
 #pragma rs java_package_name(com.example.gabriele.steganography)
 
-uchar* input_string;
+const uchar* input_string;
 int8_t char_counter; //counter for input_string characters
 int8_t shift_counter; //counter for shifts in the input_string[char_counter] char
 int32_t string_length; //lenght of input_string

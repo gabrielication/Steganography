@@ -24,7 +24,7 @@ public class DecodeRS {
         RenderScript decodeRS= RenderScript.create(c);
         Bitmap bmp= BitmapFactory.decodeFile(file.getAbsolutePath());
 
-        int length= ((bmp.getHeight()*bmp.getWidth())*3)/4;
+        int length= 100; //((bmp.getHeight()*bmp.getWidth())*3)/4;
         byte[] output = new byte[length];
 
         ScriptC_decode decodeScript= new ScriptC_decode(decodeRS);
@@ -32,6 +32,7 @@ public class DecodeRS {
         decodeScript.set_len(length);
 
         Allocation char_array= Allocation.createSized(decodeRS, Element.U8(decodeRS),length,Allocation.USAGE_SCRIPT);
+        char_array.copyFrom(output);
         decodeScript.bind_output_string(char_array);
 
         Allocation alloc= Allocation.createFromBitmap(decodeRS, bmp);

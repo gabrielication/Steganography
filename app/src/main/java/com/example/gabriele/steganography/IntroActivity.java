@@ -1,6 +1,9 @@
 package com.example.gabriele.steganography;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,10 +17,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gabriele.steganography.utils.SaveImage;
+import com.example.gabriele.steganography.utils.SaveFiles;
 import com.example.gabriele.steganography.utils.UriRealPath;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class IntroActivity extends AppCompatActivity {
@@ -87,7 +92,7 @@ public class IntroActivity extends AppCompatActivity {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = SaveImage.createImageFileFromCamera();
+                photoFile = SaveFiles.createImageFileFromCamera();
             } catch (IOException ex) {
                 Log.i("degab","An error occured. Cannot create image file with createImageFile()");
                 Toast alert = Toast.makeText(getApplicationContext(), "Cannot create image file.", Toast.LENGTH_SHORT);
@@ -123,6 +128,8 @@ public class IntroActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) { //if the user clicked ok, we can pass the path to the Activity
+            MediaScannerConnection.scanFile(getApplicationContext(),new String[]{photo_path},null,null);
+
             Intent selfiSrc = new Intent(this, EncodingActivity.class);
             selfiSrc.putExtra("imgurl", photo_path);
             startActivity(selfiSrc);
@@ -146,6 +153,7 @@ public class IntroActivity extends AppCompatActivity {
                 alert.show();
             }
             else {
+
                 startEncoding.putExtra("imgurl",photo_path);
                 startActivity(startEncoding);
             }

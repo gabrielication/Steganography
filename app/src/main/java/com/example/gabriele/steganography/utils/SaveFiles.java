@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by gabriele on 09/04/16.
  */
-public class SaveImage {
+public class SaveFiles {
 
     public static File createImageFileFromCamera() throws IOException {
         // Create an image file name
@@ -54,6 +54,21 @@ public class SaveImage {
         return image;
     }
 
+    public static File createTxtFile(String imagename) throws IOException{
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography/TXTs");
+        if(!storageDir.exists()){
+            storageDir.mkdir();
+            Log.i("degab","dir "+storageDir.getAbsolutePath()+" created");
+        }
+
+        File txt= File.createTempFile(
+                imagename,  /* prefix */
+                ".txt",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        return txt;
+    }
 }
 
 /**

@@ -6,13 +6,13 @@ import android.os.Parcelable;
 /**
  * Created by gabriele on 10/04/16.
  */
-public class OutputStatsAfterEncoding implements Parcelable {
+public class OutputStats implements Parcelable {
 
     private String path;
     private long time;
     private String msg;
 
-    public OutputStatsAfterEncoding(String path, String msg, long time){
+    public OutputStats(String path, String msg, long time){
         this.path= path;
         this.msg= msg;
         this.time= time;
@@ -30,21 +30,21 @@ public class OutputStatsAfterEncoding implements Parcelable {
         return msg;
     }
 
-    protected OutputStatsAfterEncoding(Parcel in) {
+    protected OutputStats(Parcel in) {
         path = in.readString();
         time = in.readLong();
         msg = in.readString();
     }
 
-    public static final Creator<OutputStatsAfterEncoding> CREATOR = new Creator<OutputStatsAfterEncoding>() {
+    public static final Creator<OutputStats> CREATOR = new Creator<OutputStats>() {
         @Override
-        public OutputStatsAfterEncoding createFromParcel(Parcel in) {
-            return new OutputStatsAfterEncoding(in);
+        public OutputStats createFromParcel(Parcel in) {
+            return new OutputStats(in);
         }
 
         @Override
-        public OutputStatsAfterEncoding[] newArray(int size) {
-            return new OutputStatsAfterEncoding[size];
+        public OutputStats[] newArray(int size) {
+            return new OutputStats[size];
         }
     };
 

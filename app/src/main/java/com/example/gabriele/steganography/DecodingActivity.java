@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.gabriele.steganography.steganography.DecodeRS;
-import com.example.gabriele.steganography.utils.OutputStatsAfterDecoding;
+import com.example.gabriele.steganography.utils.OutputStats;
 
 import java.io.File;
 
@@ -80,13 +80,16 @@ public class DecodingActivity extends AppCompatActivity {
 
             if(code==DECODING_SUCCESFULLY) {
                 Intent gotoDecoded= new Intent(DecodingActivity.this, DecodedActivity.class);
-                OutputStatsAfterDecoding out= new OutputStatsAfterDecoding(output,time);
+                OutputStats out= new OutputStats(sourceFile.getName().split(".png")[0],output,time);
                 gotoDecoded.putExtra("outputstas",out);
                 startActivity(gotoDecoded);
             }
             else if(code==DECODING_FAILURE){
                 Toast alert = Toast.makeText(getApplicationContext(), "String not found! Try with another pic.", Toast.LENGTH_SHORT);
                 alert.show();
+
+                decodeButton.setEnabled(true);
+                chooseAnotherPicButton.setEnabled(true);
             }
         }
 
