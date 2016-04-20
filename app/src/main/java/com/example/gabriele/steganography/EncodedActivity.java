@@ -40,7 +40,7 @@ public class EncodedActivity extends AppCompatActivity {
 
         outputStats= (TextView) findViewById(R.id.logstatusTextView);
         outputStats.setText
-                ("Status: ENCODED SUCCESFULLY\n\nImage saved in: "+path+"\n\nOperation done in: "+time+"ms"+"\n\nText encoded: \n\n"+msg);
+                ("Status: ENCODED SUCCESSFULLY\n\nImage saved in: "+path+"\n\nOperation done in: "+time+"ms"+"\n\nText encoded: \n\n"+msg);
         outputStats.setMovementMethod(new ScrollingMovementMethod());
     }
 
