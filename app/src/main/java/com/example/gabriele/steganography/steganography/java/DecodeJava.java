@@ -1,41 +1,9 @@
 package com.example.gabriele.steganography.steganography.java;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-
 /**
  * Created by gabriele on 08/04/16.
  */
 public class DecodeJava {
-
-    public static String decode(Bitmap in){
-        StringBuilder res= new StringBuilder();
-
-        for(int y=0; y<in.getHeight(); y++){
-            for(int x=0; x<in.getWidth(); x++){
-                int pix= in.getPixel(x,y);
-                byte r= (byte) Color.red(pix);
-                byte g= (byte) Color.green(pix);
-                byte b= (byte) Color.blue(pix);
-                byte a= (byte) Color.alpha(pix);
-
-                r= (byte) (r & 0x3);
-                g= (byte) (g & 0x3);
-                b= (byte) (b & 0x3);
-                a= (byte) (a & 0x3);
-
-                char ch= 0x00;
-                ch= (char) (ch & ((r << 6) & 0xC0));
-                ch= (char) (ch & ((g << 4) & 0x30));
-                ch= (char) (ch & ((b << 2) & 0x0C));
-                ch= (char) (ch & (a & 0x03));
-
-                res= res.append(ch);
-            }
-        }
-        return res.toString();
-    }
-
 }
 
 /**
