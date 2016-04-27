@@ -12,7 +12,7 @@ import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.widget.Toast;
 
-import com.example.gabriele.steganography.ScriptC_encode;
+import com.example.gabriele.steganography.steganography.java.DecodeJava;
 
 import java.io.File;
 import java.nio.ByteBuffer;
@@ -23,19 +23,42 @@ public class EncodeRS {
     public static Bitmap encode(String input,Context c,File imgFile){
         RenderScript encodeRS= RenderScript.create(c);
         Bitmap bmp= BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        int x = bmp.getWidth();
+        int y = bmp.getHeight();
+        int[] intArray = new int[x * y];
+        bmp.getPixels(intArray, 0, x, 0, 0, x, y);
+        bmp.recycle();
+
         String toEncode= "!n17"+input+"$n%";
         byte[] prova= toEncode.getBytes();
 
+        Allocation char_array= Allocation.createSized(encodeRS, Element.U8(encodeRS),prova.length,Allocation.USAGE_SCRIPT);
+        char_array.copyFrom(prova);
+
+        ScriptC_encode encodeScript= new ScriptC_encode(encodeRS);
+        Allocation img = Allocation.createSized(encodeRS, Element.U32(encodeRS), (x*y), Allocation.USAGE_SCRIPT);
+        img.copyFrom(intArray);
+
+        encodeScript.bind_bmp(img);
+
+        encodeScript.forEach_root(char_array);
+
+        img.copyTo(intArray);
+        bmp= Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_8888);
+
+        bmp.setPixels(intArray, 0, x, 0, 0, x, y);
+
+        //DecodeJava.decode(bmp);
+/*
         Allocation alloc= Allocation.createFromBitmap(encodeRS, bmp);
         ScriptC_encode encodeScript= new ScriptC_encode(encodeRS);
-        encodeScript.set_string_length(toEncode.length());
 
         Allocation char_array= Allocation.createSized(encodeRS, Element.U8(encodeRS),prova.length,Allocation.USAGE_SCRIPT);
         char_array.copyFrom(prova);
-        encodeScript.bind_input_string(char_array);
-        encodeScript.forEach_encode(alloc, alloc);
 
-        alloc.copyTo(bmp);
+        encodeScript.forEach_encode(char_array);
+
+        alloc.copyTo(bmp);*/
 
         return bmp;
     }
