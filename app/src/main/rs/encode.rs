@@ -13,11 +13,11 @@ void root(uchar4* in, uint32_t x, uint32_t y) {
 
     uchar r= (in->r) & 0xF8;
     uchar g= (in->g) & 0xF8;
-    uchar b= (in->b) & 0xF8;
+    uchar b= (in->b) & 0xFC;
 
     uchar r_ch= ((input_string[ind_str]) >> 5) & 0x07;
     uchar g_ch= ((input_string[ind_str]) >> 2) & 0x07;
-    uchar b_ch= (input_string[ind_str]) & 0x07;
+    uchar b_ch= (input_string[ind_str]) & 0x03;
 
     r= r | r_ch;
     g= g | g_ch;

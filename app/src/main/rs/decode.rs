@@ -12,7 +12,7 @@ void root(uchar4* in, uint32_t x, uint32_t y){
     if(ind_out < out_len){
         uchar r= ((in->r) << 5) & 0xE0;
         uchar g= ((in->g) << 2) & 0x1C;
-        uchar b= (in->b)& 0x07;
+        uchar b= (in->b) & 0x03;
 
         uchar res_ch= 0x00;
 

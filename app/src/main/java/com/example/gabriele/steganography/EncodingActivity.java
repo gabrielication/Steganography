@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gabriele.steganography.steganography.EncodeRS;
 import com.example.gabriele.steganography.utils.OutputStats;
@@ -73,22 +74,29 @@ public class EncodingActivity extends AppCompatActivity {
         clearButton.setEnabled(false);
         toEncrypt= inputText.getText().toString();
 
-        time= System.currentTimeMillis();
+        if(toEncrypt.equals("")){
+            Toast.makeText(getApplicationContext(), "Type some text to encode!", Toast.LENGTH_SHORT).show();
+            encodeButton.setEnabled(true);
+            clearButton.setEnabled(true);
+        } else {
 
-        status= (TextView) findViewById(R.id.statusEncText);
-        status.setText("Please wait... 0%");
-        //new AsyncEncode().execute();
+            time = System.currentTimeMillis();
 
-        Runnable r= new Runnable() {
-            @Override
-            public void run() {
-                bmp= EncodeRS.encode(toEncrypt,getApplicationContext(),imgFile);
-                handler.sendEmptyMessage(ENCODING_DONE);
-            }
-        };
+            status = (TextView) findViewById(R.id.statusEncText);
+            status.setText("Please wait... 0%");
+            //new AsyncEncode().execute();
 
-        Thread thread= new Thread(r);
-        thread.start();
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    bmp = EncodeRS.encode(toEncrypt, getApplicationContext(), imgFile);
+                    handler.sendEmptyMessage(ENCODING_DONE);
+                }
+            };
+
+            Thread thread = new Thread(r);
+            thread.start();
+        }
     }
 
     private void saveImageThread(){

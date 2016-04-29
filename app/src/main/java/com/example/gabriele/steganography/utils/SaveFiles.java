@@ -38,6 +38,11 @@ public class SaveFiles {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "STG_"+timeStamp;
 
+        File storageroot = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography");
+        if(!storageroot.exists()){
+            storageroot.mkdir();
+            Log.i("degab","dir "+storageroot.getAbsolutePath()+" created");
+        }
 
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography/Encoded");
         if(!storageDir.exists()){
@@ -55,6 +60,13 @@ public class SaveFiles {
     }
 
     public static File createTxtFile(String imagename) throws IOException{
+
+        File storageroot = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography");
+        if(!storageroot.exists()){
+            storageroot.mkdir();
+            Log.i("degab","dir "+storageroot.getAbsolutePath()+" created");
+        }
+
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography/TXTs");
         if(!storageDir.exists()){
             storageDir.mkdir();
