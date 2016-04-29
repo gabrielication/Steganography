@@ -37,6 +37,7 @@ public class IntroActivity extends AppCompatActivity {
     private static final int REQUEST_OPEN_GALLERY_BY_DECODE= 3; //intent code for opening the gallery for the Decoding
     private static final int REQUEST_CAMERA= 4;
     private static final int REQUEST_STORAGE= 5;
+    private static final int REQUEST_STORAGE_CAMERA= 6;
 
     private Button encodeButton,decodeButton,cameraButton,galleryButton;
     private TextView chooseText;
@@ -95,12 +96,26 @@ public class IntroActivity extends AppCompatActivity {
     public void takePhoto(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
-                takePhoto();
+                checkStoragePermissionForCamera();
             } else {
                 if(shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)){
                     Toast.makeText(this,"Camera permission is needed to take a photo.", Toast.LENGTH_LONG).show();
                 }
                 requestPermissions(new String[]{android.Manifest.permission.CAMERA},REQUEST_CAMERA);
+            }
+        }
+        else takePhoto();
+    }
+
+    private void checkStoragePermissionForCamera(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                takePhoto();
+            } else {
+                if(shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    Toast.makeText(this,"External storage permission is needed to create a photo.", Toast.LENGTH_LONG).show();
+                }
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_STORAGE_CAMERA);
             }
         }
         else takePhoto();
@@ -220,7 +235,7 @@ public class IntroActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==REQUEST_CAMERA){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                takePhoto();
+                checkStoragePermissionForCamera();
             } else {
                 Toast.makeText(this,"Camera permission was not granted.", Toast.LENGTH_SHORT).show();
             }
@@ -230,7 +245,14 @@ public class IntroActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this,"External storage permission was not granted.", Toast.LENGTH_SHORT).show();
             }
-        } else super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        } else if(requestCode==REQUEST_STORAGE_CAMERA){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                takePhoto();
+            } else {
+                Toast.makeText(this,"External storage permission was not granted.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else super.onRequestPermissionsResult(requestCode,permissions,grantResults);
     }
 
 
