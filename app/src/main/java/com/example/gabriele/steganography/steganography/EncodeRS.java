@@ -7,35 +7,39 @@ package com.example.gabriele.steganography.steganography;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
-import android.widget.Toast;
-
-import com.example.gabriele.steganography.ScriptC_encode;
 
 import java.io.File;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 public class EncodeRS {
 
     public static Bitmap encode(String input,Context c,File imgFile){
         RenderScript encodeRS= RenderScript.create(c);
         Bitmap bmp= BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        int width= bmp.getWidth();
+
         String toEncode= "!n17"+input+"$n%";
-        byte[] prova= toEncode.getBytes();
+        byte[] str_bytes= toEncode.getBytes();
 
-        Allocation alloc= Allocation.createFromBitmap(encodeRS, bmp);
         ScriptC_encode encodeScript= new ScriptC_encode(encodeRS);
-        encodeScript.set_string_length(toEncode.length());
 
-        Allocation char_array= Allocation.createSized(encodeRS, Element.U8(encodeRS),prova.length,Allocation.USAGE_SCRIPT);
-        char_array.copyFrom(prova);
+        Allocation img= Allocation.createFromBitmap(encodeRS, bmp,Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+
+        //bmp.recycle();
+
+        Allocation char_array= Allocation.createSized(encodeRS, Element.U8(encodeRS),str_bytes.length,Allocation.USAGE_SCRIPT);
+        char_array.copyFrom(str_bytes);
         encodeScript.bind_input_string(char_array);
-        encodeScript.forEach_encode(alloc, alloc);
 
-        alloc.copyTo(bmp);
+        encodeScript.set_string_length(str_bytes.length);
+        encodeScript.set_width(width-1);
+
+        encodeScript.forEach_root(img);
+
+        img.copyTo(bmp);
 
         return bmp;
     }
