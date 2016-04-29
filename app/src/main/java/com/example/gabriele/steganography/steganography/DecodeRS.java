@@ -22,9 +22,9 @@ public class DecodeRS {
     public static String decode(File file, Context c){
         RenderScript decodeRS= RenderScript.create(c);
         Bitmap bmp= BitmapFactory.decodeFile(file.getAbsolutePath());
-        int width= bmp.getWidth();
+        int width= bmp.getWidth()-1;
 
-        int length= 100; //((bmp.getHeight()*bmp.getWidth())*3)/4;
+        int length= bmp.getHeight()*bmp.getWidth()-1; //((bmp.getHeight()*bmp.getWidth())*3)/4;
         byte[] output = new byte[length];
 
         ScriptC_decode decodeScript= new ScriptC_decode(decodeRS);
