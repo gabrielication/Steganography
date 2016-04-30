@@ -64,4 +64,26 @@
         android:layout_toEndOf="@+id/statusEncText"
         android:onClick="encodeClicked" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=":("
+        android:textColor="#ffffff"
+        android:textSize="100dp"
+        android:id="@+id/errorEncodingtextView"
+        android:layout_marginTop="91dp"
+        android:layout_alignTop="@+id/photoImageView"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/backEncodingButton"
+        android:layout_alignBottom="@+id/encodeButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="goBackFromEncoding" />
+
 </RelativeLayout>

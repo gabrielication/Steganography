@@ -196,11 +196,10 @@ public class IntroActivity extends AppCompatActivity {
             }
 
             if(photo_path==null){
-                Toast alert = Toast.makeText(getApplicationContext(), "Cannot pick from gallery!", Toast.LENGTH_SHORT);
+                Toast alert = Toast.makeText(getApplicationContext(), "Invalid path. Change folder or select another image.", Toast.LENGTH_LONG);
                 alert.show();
             }
             else {
-
                 startEncoding.putExtra("imgurl",photo_path);
                 startActivity(startEncoding);
             }
@@ -220,7 +219,7 @@ public class IntroActivity extends AppCompatActivity {
             }
 
             if(photo_path==null){
-                Toast alert = Toast.makeText(getApplicationContext(), "Cannot pick from gallery!", Toast.LENGTH_SHORT);
+                Toast alert = Toast.makeText(getApplicationContext(), "Invalid path. Change folder or select another image.", Toast.LENGTH_LONG);
                 alert.show();
             }
             else {

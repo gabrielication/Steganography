@@ -10,6 +10,8 @@ import android.support.v8.renderscript.Type;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -21,7 +23,9 @@ public class DecodeRS {
 
     public static String decode(File file, Context c){
         RenderScript decodeRS= RenderScript.create(c);
+
         Bitmap bmp= BitmapFactory.decodeFile(file.getAbsolutePath());
+
         int width= bmp.getWidth()-1;
 
         int length= bmp.getHeight()*bmp.getWidth()-1; //((bmp.getHeight()*bmp.getWidth())*3)/4;
@@ -36,7 +40,7 @@ public class DecodeRS {
         decodeScript.bind_out_string(out);
 
         decodeScript.set_out_len(length);
-        decodeScript.set_width(length);
+        decodeScript.set_width(width);
 
         decodeScript.forEach_root(img);
 

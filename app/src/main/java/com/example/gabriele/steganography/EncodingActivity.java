@@ -2,6 +2,7 @@ package com.example.gabriele.steganography;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.gabriele.steganography.steganography.EncodeRS;
 import com.example.gabriele.steganography.utils.OutputStats;
 import com.example.gabriele.steganography.utils.SaveFiles;
@@ -31,11 +33,10 @@ public class EncodingActivity extends AppCompatActivity {
 
     private Bitmap bmp;
     private ImageView photoImageView;
-    private TextView status;
+    private TextView status,errorText;
     private EditText inputText;
     private File imgFile;
-    private Button encodeButton;
-    private Button clearButton;
+    private Button encodeButton,clearButton,goBackButton;
     private long time;
     File file= null;
 
@@ -54,14 +55,29 @@ public class EncodingActivity extends AppCompatActivity {
         }
 
         imgFile = new File(path);
-        if(imgFile.exists()){
-            photoImageView= (ImageView)findViewById(R.id.photoImageView);
-            photoImageView.setImageURI(Uri.fromFile(new File(path)));
+        if (imgFile==null || !(imgFile.exists())){
+            encodeButton= (Button) findViewById(R.id.encodeButton);
+            clearButton= (Button) findViewById(R.id.clearButton);
+            errorText= (TextView) findViewById(R.id.errorEncodingtextView);
+            status= (TextView) findViewById(R.id.statusEncText);
+            inputText= (EditText) findViewById(R.id.inputText);
+
+            encodeButton.setEnabled(false);
+            clearButton.setEnabled(false);
+
+            errorText.setVisibility(View.VISIBLE);
+            encodeButton.setVisibility(View.INVISIBLE);
+            clearButton.setVisibility(View.INVISIBLE);
+            inputText.setVisibility(View.INVISIBLE);
+
+            status.setText("Image not found. Please try again.");
+            status.setTextColor(Color.RED);
         }
-        else {
-            Log.i("degab","An error occured. File not found after Intent");
-            this.finish();
-            System.exit(0);
+        else if(imgFile.exists()){
+            photoImageView= (ImageView)findViewById(R.id.photoImageView);
+            //photoImageView.setImageURI(Uri.fromFile(new File(path)));
+
+            Glide.with(this).load(imgFile).into(photoImageView);
         }
     }
 
@@ -69,15 +85,18 @@ public class EncodingActivity extends AppCompatActivity {
         inputText= (EditText) findViewById(R.id.inputText);
         encodeButton= (Button) findViewById(R.id.encodeButton);
         clearButton= (Button) findViewById(R.id.clearButton);
+        goBackButton= (Button) findViewById(R.id.backEncodingButton);
 
         encodeButton.setEnabled(false);
         clearButton.setEnabled(false);
+        goBackButton.setEnabled(false);
         toEncrypt= inputText.getText().toString();
 
         if(toEncrypt.equals("")){
             Toast.makeText(getApplicationContext(), "Type some text to encode!", Toast.LENGTH_SHORT).show();
             encodeButton.setEnabled(true);
             clearButton.setEnabled(true);
+            goBackButton.setEnabled(true);
         } else {
 
             time = System.currentTimeMillis();
@@ -129,6 +148,12 @@ public class EncodingActivity extends AppCompatActivity {
         inputText.setText("");
     }
 
+    public void goBackFromEncoding(View view){
+        Intent gotoMain= new Intent(EncodingActivity.this,IntroActivity.class);
+        gotoMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(gotoMain);
+    }
+
     private Handler handler= new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -152,6 +177,13 @@ public class EncodingActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        Intent gotoMain= new Intent(EncodingActivity.this,IntroActivity.class);
+        gotoMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(gotoMain);
+    }
 
 }
 
