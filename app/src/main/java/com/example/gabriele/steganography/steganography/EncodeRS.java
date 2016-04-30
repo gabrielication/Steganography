@@ -19,7 +19,7 @@ public class EncodeRS {
     public static Bitmap encode(String input,Context c,File imgFile){
         RenderScript encodeRS= RenderScript.create(c);
         Bitmap bmp= BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        int width= bmp.getWidth();
+        int width= bmp.getWidth()-1;
 
         String toEncode= "!n17"+input+"$n%";
         byte[] str_bytes= toEncode.getBytes();
@@ -35,7 +35,7 @@ public class EncodeRS {
         encodeScript.bind_input_string(char_array);
 
         encodeScript.set_string_length(str_bytes.length);
-        encodeScript.set_width(width-1);
+        encodeScript.set_width(width);
 
         encodeScript.forEach_root(img);
 
