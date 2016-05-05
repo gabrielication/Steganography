@@ -13,6 +13,7 @@ import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 public class EncodeRS {
 
@@ -22,7 +23,12 @@ public class EncodeRS {
         int width= bmp.getWidth()-1;
 
         String toEncode= "!n17"+input+"$n%";
-        byte[] str_bytes= toEncode.getBytes();
+        byte[] str_bytes= null;
+        try {
+            str_bytes = toEncode.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            System.exit(0);
+        }
 
         ScriptC_encode encodeScript= new ScriptC_encode(encodeRS);
 
