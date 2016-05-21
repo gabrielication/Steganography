@@ -1,6 +1,6 @@
 # Steganography
 
-WARNING: AT THE CURRENT TIME (29/04/16) THIS IS A PRE-ALPHA! IT MAY BE UNSTABLE AND IT MAY DOESN'T HAVE SOME FEATURES. USE IT AT YOUR OWN RISK.
+WARNING: AT THE CURRENT TIME (21/05/16) THIS IS A RELEASE CANDIDATE! IT IS FULLY FUNCTIONAL BUT IT MAY BE UNSTABLE. USE IT AT YOUR OWN RISK.
 
 "Steganography" is a universitary project. 
 The goal is to develop a parallel computing Android app taking advantages from the RenderScript framework.
