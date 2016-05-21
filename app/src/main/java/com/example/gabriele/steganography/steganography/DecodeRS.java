@@ -46,16 +46,12 @@ public class DecodeRS {
 
         out.copyTo(output);
 
-        StringBuilder builder= new StringBuilder();
-        for (int i=0; i<length; i++){
-            builder.append((char) output[i]);
-        }
-
         String s= null;
 
         try{
-            s= builder.substring(builder.indexOf("!n17")+4, builder.indexOf("$n%"));
-        } catch (StringIndexOutOfBoundsException e){
+            s= new String(output,"UTF-8");
+            s= s.substring(s.indexOf("!n17")+4, s.indexOf("$n%"));
+        } catch (Exception e){
             return null;
         }
 
