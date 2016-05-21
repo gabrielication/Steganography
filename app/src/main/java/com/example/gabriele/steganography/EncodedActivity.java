@@ -1,15 +1,15 @@
 package com.example.gabriele.steganography;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.gabriele.steganography.steganography.DecodeRS;
 import com.example.gabriele.steganography.utils.OutputStats;
 
 import java.io.File;
@@ -51,8 +51,32 @@ public class EncodedActivity extends AppCompatActivity {
     }
 
     public void shareImg(View view){
-        Toast alert = Toast.makeText(getApplicationContext(), "Not implemented yet!", Toast.LENGTH_SHORT);
+        showAlert();
+    }
+
+    private void showAlert(){
+        AlertDialog.Builder a_builder = new AlertDialog.Builder(EncodedActivity.this);
+        a_builder.setMessage("Most popular apps apply compression on the images. The encoded text will be lost even with a minuscule compression. Choose carefully a sharing way with no compression.")
+                .setPositiveButton("Ok",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendImgToOthers();
+                    }
+                });
+        AlertDialog alert = a_builder.create();
+        alert.setTitle("Alert");
         alert.show();
+    }
+
+    private void sendImgToOthers(){
+        path= out.getPath();
+        Uri uri= Uri.fromFile(new File(path));
+        Intent intent= new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_STREAM,uri);
+        intent.putExtra(Intent.EXTRA_TEXT,"Shared using Steganography app. Check it out: https://github.com/gabrielication/Steganography");
+        Intent chooser= Intent.createChooser(intent,"Send Image");
+        startActivity(chooser);
     }
 
     @Override

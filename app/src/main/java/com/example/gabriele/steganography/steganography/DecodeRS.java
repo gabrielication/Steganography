@@ -6,15 +6,8 @@ import android.graphics.BitmapFactory;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
-import android.support.v8.renderscript.Type;
-import android.widget.Toast;
-
-
-import com.bumptech.glide.Glide;
 
 import java.io.File;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /**
  * Created by gabriele on 08/04/16.

@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
 
 //This class returns the real path from a Uri. In API>=19 it is a completely new model
