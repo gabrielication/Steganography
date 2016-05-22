@@ -28,6 +28,7 @@ public class EncodingActivity extends AppCompatActivity {
 
     private static final int ENCODING_DONE= 0;
     private static final int SAVED_IMG= 1;
+    private static final int ENCODING_FAILURE= -1;
 
     private Bitmap bmp;
     private ImageView photoImageView;
@@ -101,13 +102,15 @@ public class EncodingActivity extends AppCompatActivity {
 
             status = (TextView) findViewById(R.id.statusEncText);
             status.setText("Please wait... 0%");
+            status.setTextColor(Color.YELLOW);
             //new AsyncEncode().execute();
 
             Runnable r = new Runnable() {
                 @Override
                 public void run() {
                     bmp = EncodeRS.encode(toEncrypt, getApplicationContext(), imgFile);
-                    handler.sendEmptyMessage(ENCODING_DONE);
+                    if(bmp!=null) handler.sendEmptyMessage(ENCODING_DONE);
+                    else handler.sendEmptyMessage(ENCODING_FAILURE);
                 }
             };
 
@@ -159,11 +162,12 @@ public class EncodingActivity extends AppCompatActivity {
             int code= msg.what;
 
             if(code==ENCODING_DONE){
-                status.setText("Saving image... 90%");
+                status.setText("Saving image... 75%\n(lossless - can be slow)");
                 time= System.currentTimeMillis()-time;
                 saveImageThread();
             } else if(code==SAVED_IMG) {
-                status.setText("Done 100%");
+                status.setText("Done! 100%");
+                status.setTextColor(Color.GREEN);
 
                 bmp.recycle(); //cleanup
                 OutputStats out = new OutputStats(file.getPath(), toEncrypt, time);
@@ -172,6 +176,11 @@ public class EncodingActivity extends AppCompatActivity {
                 Intent startEncodedActivity = new Intent(EncodingActivity.this, EncodedActivity.class);
                 startEncodedActivity.putExtra("resultfromencoding", out);
                 startActivity(startEncodedActivity);
+            } else if (code == ENCODING_FAILURE) {
+                Toast.makeText(getApplicationContext(), "Text cannot be encoded. Try with a different text or choose another pic.", Toast.LENGTH_SHORT).show();
+                encodeButton.setEnabled(true);
+                clearButton.setEnabled(true);
+                goBackButton.setEnabled(true);
             }
         }
     };

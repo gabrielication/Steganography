@@ -64,6 +64,10 @@ public class DecodingActivity extends AppCompatActivity {
     public void decodeClicked(View view){
         decodeButton= (Button) findViewById(R.id.decodeButton);
         chooseAnotherPicButton= (Button) findViewById(R.id.chooseAnotherPicButton);
+        statusDecoding= (TextView) findViewById(R.id.statusDecodingText);
+
+        statusDecoding.setText("Decoding in progress...");
+        statusDecoding.setTextColor(Color.YELLOW);
 
         decodeButton.setEnabled(false);
         chooseAnotherPicButton.setEnabled(false);
@@ -101,6 +105,9 @@ public class DecodingActivity extends AppCompatActivity {
             int code= msg.what;
 
             if(code==DECODING_SUCCESFULLY) {
+                statusDecoding.setText("Done!");
+                statusDecoding.setTextColor(Color.GREEN);
+
                 Intent gotoDecoded= new Intent(DecodingActivity.this, DecodedActivity.class);
                 OutputStats out= new OutputStats(imgFile.getName().split(".png")[0],output,time);
                 gotoDecoded.putExtra("outputstas",out);
@@ -109,6 +116,9 @@ public class DecodingActivity extends AppCompatActivity {
             else if(code==DECODING_FAILURE){
                 Toast alert = Toast.makeText(getApplicationContext(), "String not found! Try with another pic.", Toast.LENGTH_SHORT);
                 alert.show();
+
+                statusDecoding.setText("Decoding unsuccessful.");
+                statusDecoding.setTextColor(Color.RED);
 
                 decodeButton.setEnabled(true);
                 chooseAnotherPicButton.setEnabled(true);

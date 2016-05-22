@@ -39,16 +39,18 @@ public class DecodeRS {
 
         out.copyTo(output);
 
-        String s= null;
-
         try{
-            s= new String(output,"UTF-8");
-            s= s.substring(s.indexOf("!n17")+4, s.indexOf("$n%"));
+            String s= new String(output,"UTF-8");
+
+            int start= s.indexOf("!n17");
+            if(start==-1) return null;
+            int stop= s.indexOf("$n%");
+            if(stop==-1) return null;
+
+            return s.substring(start+4, stop);
         } catch (Exception e){
             return null;
         }
-
-        return s;
     }
 
 }

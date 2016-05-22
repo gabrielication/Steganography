@@ -46,7 +46,7 @@ public class DecodedActivity extends AppCompatActivity {
         outputText= (TextView) findViewById(R.id.outputText);
         outputText.setMovementMethod(new ScrollingMovementMethod());
 
-        toTextView= "Status: DECODED SUCCESFULLY\nOperation done in: "+time+"ms\n\nText decoded:\n\n\""+decodemsg+"\"";
+        toTextView= "Status: DECODED SUCCESSFULLY\nOperation done in: "+time+"ms\n\nText decoded:\n\n\""+decodemsg+"\"";
 
         outputText.setText(toTextView);
     }

@@ -22,6 +22,9 @@ public class EncodeRS {
         int width= bmp.getWidth()-1;
 
         String toEncode= "!n17"+input+"$n%";
+
+        if(toEncode.length()>bmp.getHeight()*bmp.getWidth()) return null;
+
         byte[] str_bytes= null;
         try {
             str_bytes = toEncode.getBytes("UTF-8");
