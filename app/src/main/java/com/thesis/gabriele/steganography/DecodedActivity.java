@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography;
+package com.thesis.gabriele.steganography;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gabriele.steganography.utils.OutputStats;
-import com.example.gabriele.steganography.utils.SaveFiles;
+import com.thesis.gabriele.steganography.utils.OutputStats;
+import com.thesis.gabriele.steganography.utils.SaveFiles;
 
 import java.io.File;
 import java.io.FileOutputStream;

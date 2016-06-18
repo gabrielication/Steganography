@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography.steganography;
+package com.thesis.gabriele.steganography.steganography;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography.steganography;
+package com.thesis.gabriele.steganography.steganography;
 
 /**
  * Created by gabriele on 08/04/16.

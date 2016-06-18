@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(com.example.gabriele.steganography.steganography)
+#pragma rs java_package_name(com.thesis.gabriele.steganography.steganography)
 
 uchar* input_string;
 uint32_t string_length; //lenght of input_string

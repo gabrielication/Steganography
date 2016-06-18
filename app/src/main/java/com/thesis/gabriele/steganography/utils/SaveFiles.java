@@ -1,7 +1,6 @@
-package com.example.gabriele.steganography.utils;
+package com.thesis.gabriele.steganography.utils;
 
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +21,6 @@ public class SaveFiles {
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography");
         if(!storageDir.exists()){
             storageDir.mkdir();
-            Log.i("degab","dir "+storageDir.getAbsolutePath()+" created");
         }
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
@@ -41,13 +39,11 @@ public class SaveFiles {
         File storageroot = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography");
         if(!storageroot.exists()){
             storageroot.mkdir();
-            Log.i("degab","dir "+storageroot.getAbsolutePath()+" created");
         }
 
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography/Encoded");
         if(!storageDir.exists()){
             storageDir.mkdir();
-            Log.i("degab","dir "+storageDir.getAbsolutePath()+" created");
         }
 
         File image = File.createTempFile(
@@ -64,13 +60,11 @@ public class SaveFiles {
         File storageroot = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography");
         if(!storageroot.exists()){
             storageroot.mkdir();
-            Log.i("degab","dir "+storageroot.getAbsolutePath()+" created");
         }
 
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"Steganography/TXTs");
         if(!storageDir.exists()){
             storageDir.mkdir();
-            Log.i("degab","dir "+storageDir.getAbsolutePath()+" created");
         }
 
         File txt= File.createTempFile(

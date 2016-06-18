@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography.utils;
+package com.thesis.gabriele.steganography.utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;

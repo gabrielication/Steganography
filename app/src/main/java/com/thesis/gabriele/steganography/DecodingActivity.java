@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography;
+package com.thesis.gabriele.steganography;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.gabriele.steganography.steganography.DecodeRS;
-import com.example.gabriele.steganography.utils.OutputStats;
+import com.thesis.gabriele.steganography.steganography.DecodeRS;
+import com.thesis.gabriele.steganography.utils.OutputStats;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography;
+package com.thesis.gabriele.steganography;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.gabriele.steganography.utils.OutputStats;
+import com.thesis.gabriele.steganography.utils.OutputStats;
 
 import java.io.File;
 

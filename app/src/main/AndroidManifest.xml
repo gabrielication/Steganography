@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.gabriele.steganography">
+    package="com.thesis.gabriele.steganography"
+    android:versionCode="1"
+    android:versionName="0.1b">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -9,6 +11,10 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="23" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".IntroActivity"
+            android:name="com.thesis.gabriele.steganography.IntroActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,16 +31,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EncodingActivity"
+            android:name="com.thesis.gabriele.steganography.EncodingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DecodingActivity"
+            android:name="com.thesis.gabriele.steganography.DecodingActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".debug.DebugActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".DecodedActivity" />
-        <activity android:name=".EncodedActivity"></activity>
+        <activity android:name="com.thesis.gabriele.steganography.DecodedActivity" />
+        <activity android:name="com.thesis.gabriele.steganography.EncodedActivity"></activity>
     </application>
 
 </manifest>

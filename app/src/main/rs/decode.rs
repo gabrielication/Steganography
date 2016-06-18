@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(com.example.gabriele.steganography.steganography)
+#pragma rs java_package_name(com.thesis.gabriele.steganography.steganography)
 
 uchar* out_string;
 uint32_t width;

@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography.utils;
+package com.thesis.gabriele.steganography.utils;
 
 /**
  * thanks to: https://github.com/hmkcode/Android/tree/master/android-show-image-and-path
@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 
 
 //This class returns the real path from a Uri. In API>=19 it is a completely new model
@@ -45,7 +44,6 @@ public class UriRealPath {
             cursor.close();
 
         } catch (Exception e){
-            Log.i("degab","error with uriRealPath");
             return null;
         }
 

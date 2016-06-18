@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography;
+package com.thesis.gabriele.steganography;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,15 +10,14 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.gabriele.steganography.utils.SaveFiles;
-import com.example.gabriele.steganography.utils.UriRealPath;
+import com.thesis.gabriele.steganography.utils.SaveFiles;
+import com.thesis.gabriele.steganography.utils.UriRealPath;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +28,9 @@ public class IntroActivity extends AppCompatActivity {
     private static final int REQUEST_OPEN_GALLERY_BY_ENCODE= 2; //intent code for opening the gallery for the Encoding
     private static final int REQUEST_OPEN_GALLERY_BY_DECODE= 3; //intent code for opening the gallery for the Decoding
     private static final int REQUEST_CAMERA= 4;
-    private static final int REQUEST_STORAGE= 5;
-    private static final int REQUEST_STORAGE_CAMERA= 6;
+    private static final int REQUEST_STORAGE_BY_ENCODE= 5;
+    private static final int REQUEST_STORAGE_BY_DECODE= 6;
+    private static final int REQUEST_STORAGE_CAMERA= 7;
 
     private Button encodeButton,decodeButton,cameraButton,galleryButton;
     private TextView chooseText;
@@ -123,7 +123,6 @@ public class IntroActivity extends AppCompatActivity {
             try {
                 photoFile = SaveFiles.createImageFileFromCamera();
             } catch (IOException ex) {
-                Log.i("degab","An error occured. Cannot create image file with createImageFile()");
                 Toast alert = Toast.makeText(getApplicationContext(), "Cannot create image file.", Toast.LENGTH_SHORT);
                 alert.show();
             }
@@ -145,14 +144,24 @@ public class IntroActivity extends AppCompatActivity {
                 if(shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
                     Toast.makeText(this,"External storage permission is needed to explore gallery.", Toast.LENGTH_LONG).show();
                 }
-                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_STORAGE);
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_STORAGE_BY_ENCODE);
             }
         }
         else browseGallery(REQUEST_OPEN_GALLERY_BY_ENCODE);
     }
 
     public void startDecoding(View view){
-        browseGallery(REQUEST_OPEN_GALLERY_BY_DECODE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                browseGallery(REQUEST_OPEN_GALLERY_BY_DECODE);
+            } else {
+                if(shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                    Toast.makeText(this,"External storage permission is needed to explore gallery.", Toast.LENGTH_LONG).show();
+                }
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_STORAGE_BY_DECODE);
+            }
+        }
+        else browseGallery(REQUEST_OPEN_GALLERY_BY_DECODE);
     }
 
     private void browseGallery(int req){
@@ -231,9 +240,15 @@ public class IntroActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this,"Camera permission was not granted.", Toast.LENGTH_SHORT).show();
             }
-        } else if(requestCode==REQUEST_STORAGE){
+        } else if(requestCode==REQUEST_STORAGE_BY_ENCODE){
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 browseGallery(REQUEST_OPEN_GALLERY_BY_ENCODE);
+            } else {
+                Toast.makeText(this,"External storage permission was not granted.", Toast.LENGTH_SHORT).show();
+            }
+        } else if(requestCode==REQUEST_STORAGE_BY_DECODE){
+            if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                browseGallery(REQUEST_OPEN_GALLERY_BY_DECODE);
             } else {
                 Toast.makeText(this,"External storage permission was not granted.", Toast.LENGTH_SHORT).show();
             }

@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography;
+package com.thesis.gabriele.steganography;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

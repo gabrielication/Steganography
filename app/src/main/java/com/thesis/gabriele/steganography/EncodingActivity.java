@@ -1,4 +1,4 @@
-package com.example.gabriele.steganography;
+package com.thesis.gabriele.steganography;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,9 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.gabriele.steganography.steganography.EncodeRS;
-import com.example.gabriele.steganography.utils.OutputStats;
-import com.example.gabriele.steganography.utils.SaveFiles;
+import com.thesis.gabriele.steganography.steganography.EncodeRS;
+import com.thesis.gabriele.steganography.utils.OutputStats;
+import com.thesis.gabriele.steganography.utils.SaveFiles;
 
 import java.io.File;
 import java.io.FileOutputStream;
